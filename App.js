@@ -1,21 +1,60 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import OnBoard from './screens/OnBoard';
+import Login from './screens/Login';
+import Register from './screens/Register';
+import Home from './screens/Home';
+import TakeCourse from './screens/TakeCourse';
+import TakeExam from './screens/TakeExam';
+import Test from './screens/Test';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppContext from './AppContext/AppContext';
+import Answers from './screens/Answers';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [quizId, setQuizId] = useState();
+  const [answers, setAnswers] = useState([]);
+  const [quizes, setQuizes] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [questions, setQuestions] = useState([]);
+  const [options, setOptions] = useState([]);
+  const [optAnswers, setOptAnswers] = useState([]);
+
+  useEffect(() => {
+    checkLoggedIn();
+  }, [])
+
+  const checkLoggedIn = async () => {
+    if(await AsyncStorage.getItem('loggedIn') === 'yes'){
+      setLoggedIn(true);
+    }
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppContext.Provider value={{ quizId, setQuizId, answers, setAnswers, quizes, setQuizes, courses, setCourses, questions, setQuestions, options, setOptions,optAnswers, setOptAnswers, setLoggedIn}}>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {
+          loggedIn ? 
+          <>
+            <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
+            <Stack.Screen name='TakeCourse' component={TakeCourse} options={{ headerShown: false }} />
+            <Stack.Screen name='TakeTest' component={TakeExam} options={{ headerShown: false }} />
+            <Stack.Screen name='Test' component={Test} options={{ headerShown: false }} />
+            <Stack.Screen name='Answers' component={Answers} options={{ headerShown: false }} />
+          </>: 
+          <>
+            <Stack.Screen name='Onboard' component={OnBoard} options={{ headerShown: false }} />
+            <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
+          </>
+        }
+      </Stack.Navigator>
+    </NavigationContainer>
+    </AppContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
