@@ -39,7 +39,7 @@
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
-    "react-native-skeleton-content": "^1.0.22",
+    "react-native-skeleton-content": "^1.0.23",
     "react-native-skeleton-placeholder": "^5.0.0",
     "react-native-web": "~0.13.12"
   },

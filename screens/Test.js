@@ -9,6 +9,7 @@ const Test = ({ navigation }) => {
     const [choosenId, setChoosenId] = useState();
     const [questionIndex, setQuestionIndex] = useState(0);
     const [option, setOption] = useState();
+    const [optionSelected, setOptionSelected] = useState(false);
     const {answers, options, questions, setQuestions, quizId} = useContext(AppContext);
 
     useEffect(() => {
@@ -22,7 +23,7 @@ const Test = ({ navigation }) => {
                 console.log(response.data.data)
             })
             .catch(() => {
-                Alert.alert('Befa', 'Habonetse ikibazo, suzuma murandasi yawe h');
+                Alert.alert('Befa', 'Habonetse ikibazo, suzuma murandasi yawe');
             })
     }
     const opt = options?.filter(option => option.question === questions[questionIndex]?.id);
@@ -90,6 +91,7 @@ const Test = ({ navigation }) => {
                             onPress={() => {
                                 setChoosenId(item.id);
                                 setOption(item);
+                                setOptionSelected(true);
                             }}
                             key={idx} 
                             style={{
@@ -163,9 +165,9 @@ const Test = ({ navigation }) => {
                             incorrectAnswer: questions[questionIndex].answer === option.id ? 'None' : option?.description,
                             correctAnswer: opt.find(opts => opts.id === questions[questionIndex].answer).description, 
                         });
-
-                        console.log(answers);
+                        setOptionSelected(false);
                     }}
+                    disabled={!optionSelected ? true : false}
                     style={{
                         backgroundColor: '#fff',
                         width: '100%',

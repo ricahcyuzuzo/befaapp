@@ -12,6 +12,7 @@ import Test from './screens/Test';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from './AppContext/AppContext';
 import Answers from './screens/Answers';
+import Marks from './screens/Marks';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,8 @@ export default function App() {
   const [questions, setQuestions] = useState([]);
   const [options, setOptions] = useState([]);
   const [optAnswers, setOptAnswers] = useState([]);
+  const [courseId, setCourseId ] = useState();
+  const [quizz, setQuizz] = useState();
 
   useEffect(() => {
     checkLoggedIn();
@@ -35,7 +38,7 @@ export default function App() {
     }
   }
   return (
-    <AppContext.Provider value={{ quizId, setQuizId, answers, setAnswers, quizes, setQuizes, courses, setCourses, questions, setQuestions, options, setOptions,optAnswers, setOptAnswers, setLoggedIn}}>
+    <AppContext.Provider value={{ quizId, setQuizId, answers, setAnswers, quizes, setQuizes, courses, setCourses, questions, setQuestions, options, setOptions,optAnswers, setOptAnswers, setLoggedIn, courseId, setCourseId, setQuizz, quizz}}>
     <NavigationContainer>
       <Stack.Navigator>
         {
@@ -46,6 +49,8 @@ export default function App() {
             <Stack.Screen name='TakeTest' component={TakeExam} options={{ headerShown: false }} />
             <Stack.Screen name='Test' component={Test} options={{ headerShown: false }} />
             <Stack.Screen name='Answers' component={Answers} options={{ headerShown: false }} />
+            <Stack.Screen name='Marks' component={Marks} options={{ headerShown: false }} />
+
           </>: 
           <>
             <Stack.Screen name='Onboard' component={OnBoard} options={{ headerShown: false }} />

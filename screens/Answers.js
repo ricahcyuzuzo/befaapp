@@ -1,16 +1,41 @@
 import React, { useContext, useEffect } from 'react'
-import { Dimensions, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import AppContext from '../AppContext/AppContext';
 import { AntDesign, Feather } from '@expo/vector-icons';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('screen');
 
 const Answers = ({ navigation }) => {
-    const {answers, setAnswers} = useContext(AppContext);
+    const {answers, setAnswers, quizz} = useContext(AppContext);
 
     useEffect(() => {
-        console.log(answers);
+        recordMarks();
     }, [])
+
+    const wrongAnswer = answers.filter(answer => answer.correct === false ).length;
+    const rightAnswer = answers.length - wrongAnswer; 
+    const score = quizz.correctAnswerMarks * rightAnswer;
+
+    const recordMarks = async () => {
+        const userId = await AsyncStorage.getItem('userId');
+        const post = {
+            student: userId,
+            quizId: quizz.id,
+            score: score,
+            level: answers.length,
+            correctAnswer: rightAnswer,
+            wrongAnswer: wrongAnswer,
+        }
+        axios.post('https://befaapi.herokuapp.com/api/marks', post)
+            .then(() => {
+                Alert.alert('Befa', `Wagize amanota ${score}/${answers.length * quizz.correctAnswerMarks}.`)
+            }).catch(() => {
+                Alert.alert('Befa', 'Habonetse ikibazo, Suzuma murandasi yawe.');
+            })
+    } 
+    
     return (
         <SafeAreaView>
             <StatusBar barStyle='dark-content' backgroundColor='#fff' />

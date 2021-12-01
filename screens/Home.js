@@ -4,10 +4,13 @@ import { View, Text, StatusBar, SafeAreaView, Dimensions, TouchableOpacity, Imag
 import AppContext from '../AppContext/AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Entypo } from '@expo/vector-icons';
+import SkeletonContent from 'react-native-skeleton-content';
+
 
 const { width, height} = Dimensions.get('screen');
 const Home = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const {
         setQuizes,
         setOptions,
@@ -30,6 +33,7 @@ const Home = ({ navigation }) => {
         axios.get(`https://befaapi.herokuapp.com/api/courses?userId=${userId}`)
         .then(response => {
            setCourses(response.data.data);
+           setIsLoading(false);
         }) 
         .catch(() => {
             Alert.alert('Befa', 'Havutse ikibazo, suzuma murandasi yawe.')
@@ -69,6 +73,17 @@ const Home = ({ navigation }) => {
     return (
         <SafeAreaView>
             <StatusBar barStyle='dark-content' backgroundColor='#fff' />
+            { isLoading ? <SkeletonContent
+                containerStyle={{ flex: 1, width: '90%', alignItems: 'center', alignSelf: 'center', backgroundColor: '#fff' }}
+                isLoading={isLoading}
+                layout={[
+                    { key: '1', width: '20%', height: 40, borderRadius: 20, marginTop: 10, alignSelf: 'flex-end' },
+                    { key: '2', width: '100%', height: 30, borderRadius: 20, marginTop: 100 },
+                    { key: '3', width: '100%', height: 100, borderRadius: 20, marginTop: 30},
+                    { key: '4', width: '100%', height: 200, borderRadius: 20, marginTop: 30},
+                    { key: '5', width: '100%', height: 100, borderRadius: 20, marginTop: 30},
+
+                ]} /> :
             <View style={{
                 width: '100%',
                 height: height,
@@ -193,8 +208,26 @@ const Home = ({ navigation }) => {
                             color: '#fff'
                         }}>Tangira Kwiga</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity 
+                    onPress={() => navigation.navigate('Marks')}
+                    style={{
+                        backgroundColor: '#38a865',
+                        width: '90%',
+                        height: 50,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 3,
+                        alignSelf: 'center',
+                        marginTop: 10,
+                    }}>
+                        <Text style={{
+                            fontSize: 16,
+                            color: '#fff'
+                        }}> Reba amanota</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
+            }
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -226,6 +259,12 @@ const Home = ({ navigation }) => {
                             fontSize: 16,
                         }}>Sohoka</Text>
                     </TouchableOpacity>
+                    <Text style={{
+                        fontSize: 18,
+                        width: '75%',
+                        textAlign: 'center',
+                        marginTop: 10
+                    }}>Murakoze gukoresha apulikasiyo ya Befa</Text>
                 </View>
                 </View>
             </Modal>
@@ -246,9 +285,10 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
-      marginTop: height - 180,
+      marginTop: height - 300,
       padding: 35,
       width: '100%',
+      height: 440,
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: {

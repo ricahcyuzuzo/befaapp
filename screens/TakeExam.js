@@ -8,46 +8,13 @@ import AppContext from '../AppContext/AppContext';
 const { width, height} = Dimensions.get('screen');
 
 const TakeExam = ({ navigation }) => {
-    const {setQuizId, quizes} = useContext(AppContext);
+    const {setQuizId, quizes, courseId, setQuizz} = useContext(AppContext);
     
     useEffect(() => {
+        setQuizz(quizes.find(quiz => quiz.course === courseId ));
     }, []);
 
-
-    const renderItem = ({ item }) => (
-        <TouchableOpacity 
-        
-        onPress={() => {
-            setQuizId(item.id);
-            navigation.navigate('Test')
-        }} style={{
-            backgroundColor: '#fff',
-            borderLeftWidth: 10,
-            borderColor: '#93a2db',
-            width: '90%',
-            alignSelf: 'center',
-            height: 90,
-            marginTop: 20,
-            justifyContent: 'center',
-            elevation: 20
-        }}>
-            <View style={{
-            flexDirection: 'row'
-            }}>
-            <Text style={{
-                fontWeight: 'bold',
-                fontSize: 18,
-                color: '#93a2db',
-                marginLeft: 20,
-            }}>{item.title}</Text>
-            </View>
-            <Text style={{
-                color: '#7c7c7c',
-                marginLeft: 20,
-                fontSize: 14,
-            }}>Ibibazo {item.totalQuestions}</Text>
-        </TouchableOpacity>)
-
+    const quiz = quizes.find(quiz => quiz.course === courseId );
 
     return (
         <SafeAreaView>
@@ -96,12 +63,38 @@ const TakeExam = ({ navigation }) => {
                 <View style={{
                     marginTop: 0,
                 }}>
-                    <FlatList
-                        data={quizes}
-                        horizontal={false}
-                        keyExtractor={item => item.id}
-                        renderItem={renderItem}
-                    />
+                    <TouchableOpacity 
+        
+                    onPress={() => {
+                        setQuizId(quiz.id);
+                        navigation.navigate('Test');
+                    }} style={{
+                        backgroundColor: '#fff',
+                        borderLeftWidth: 10,
+                        borderColor: '#93a2db',
+                        width: '90%',
+                        alignSelf: 'center',
+                        height: 90,
+                        marginTop: 20,
+                        justifyContent: 'center',
+                        elevation: 20
+                    }}>
+                        <View style={{
+                        flexDirection: 'row'
+                        }}>
+                        <Text style={{
+                            fontWeight: 'bold',
+                            fontSize: 18,
+                            color: '#93a2db',
+                            marginLeft: 20,
+                        }}>{quiz.title}</Text>
+                        </View>
+                        <Text style={{
+                            color: '#7c7c7c',
+                            marginLeft: 20,
+                            fontSize: 14,
+                        }}>Ibibazo {quiz.totalQuestions}</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>

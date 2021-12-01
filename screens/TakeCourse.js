@@ -16,8 +16,7 @@ const TakeCourse = ({ navigation }) => {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false)
     const [loading1, setLoading1] = useState(false);
-
-    const { courses, setQuizes, setCourses } = useContext(AppContext);
+    const { courses, setQuizes, setCourses, setCourseId } = useContext(AppContext);
 
     useEffect(() => {
     }, []);
@@ -29,7 +28,7 @@ const TakeCourse = ({ navigation }) => {
         const userId = await AsyncStorage.getItem('userId');
         axios.post(`https://befaapi.herokuapp.com/api/pay?userId=${userId}`, { phone: phone })
         .then((response) => {
-            const msg = response.data.description  
+            const msg = 'Mwasabye kwishyura, rangiza kwishyura ukanda *182*7*1#' 
             setMessage({
                 status: response.data.code,
                 message: msg
@@ -37,7 +36,7 @@ const TakeCourse = ({ navigation }) => {
             setLoading(false);
 
         }).catch(err => {
-            const msg = 'Nta mafaranga ahagije mufite kuri konti yanyu.'  
+            const msg = 'Nta mafaranga ahagije mufite kuri konti yanyu, mushyireho amafaranga kuri konti'  
             setMessage({
                 status: 401,
                 message: msg
@@ -95,26 +94,12 @@ const TakeCourse = ({ navigation }) => {
             }}>
                 <ScrollView>
                 <StatusBar barStyle='dark-content' backgroundColor='#fff' />
-                <TouchableOpacity onPress={() => navigation.goBack()} style={{
-                        width: 35,
-                        height: 35,
-                        borderRadius: 5,
-                        borderColor: '#93a2db',
-                        borderWidth: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginTop: 10,
-                        marginLeft: 20,
-                    }}>
-                        <Feather name='chevron-left' color='#93a2db' size={24} />
-                    </TouchableOpacity>
                 <View style={{
                     width: '100%',
-                    marginTop: 80,
-
+                    marginTop: 0,
                 }}>
                     {
-                        status === 'finish' && videoIndex === 2 && courses.length < 4? 
+                        status === 'finish' && videoIndex === 1 && courses.length < 4? 
                         <View>
                             <Text style={{
                                 textAlign: 'justify',
@@ -122,7 +107,8 @@ const TakeCourse = ({ navigation }) => {
                                 width: '90%',
                                 fontSize: 25,
                                 fontWeight: 'bold',
-                                color: '#93a2db'
+                                color: '#93a2db',
+                                marginTop: 20
                             }}>Ipaki y' ubuntu yarangiye</Text>
                             <Text style={{
                                 color: '#7c7c7c',
@@ -211,10 +197,9 @@ const TakeCourse = ({ navigation }) => {
                         </View> :<> 
                         <Video
                             style={{
-                                width: '90%',
+                                width: width,
                                 height: 200,
-                                borderRadius:5,
-                                alignSelf: 'center'
+                                position: 'relative'
                             }}
                             ref={video}
                             source={{
@@ -236,6 +221,37 @@ const TakeCourse = ({ navigation }) => {
                         
                         />
                         
+                        <View style={{
+                            width: '98%',
+                            alignSelf: 'center',
+                            justifyContent: 'space-between',
+                            flexDirection: 'row-reverse'
+                        }}>
+                            { courses.length === videoIndex + 1 ? <TouchableOpacity 
+                        onPress={() => {
+                            setStatus('finish');
+                        }}
+                        style={{
+                            width: '45%',
+                            height: 50,
+                            alignItems: 'center',
+                            backgroundColor: '#43c058',
+                            borderRadius: 5,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignSelf: 'center',
+                            marginTop: 10,
+                    }}>
+                        <Text style={{
+                            color: '#fff',
+                            fontSize: 16
+                        }}>Ishyura</Text>
+                        <FontAwesome5 name="angle-double-right" style={{
+                            marginLeft: 10,
+                            marginTop: 5
+                        }} size={24} color="#fff" />
+                    </TouchableOpacity> : 
+                            
                         <TouchableOpacity 
                         onPress={() => {
                             const nextVideoIndex = videoIndex + 1;
@@ -243,12 +259,12 @@ const TakeCourse = ({ navigation }) => {
                             setStatus();
                             video.current.playAsync();
                         }}
-                        disabled={status === 'finish' ? false : true} 
+                        disabled={courses.length === videoIndex + 1 ? true : false} 
                         style={{
-                            width: '90%',
+                            width: '45%',
                             height: 50,
                             alignItems: 'center',
-                            backgroundColor: status === 'finish' ? '#43c058' : '#7c7c7c',
+                            backgroundColor: '#43c058',
                             borderRadius: 5,
                             flexDirection: 'row',
                             justifyContent: 'center',
@@ -263,7 +279,37 @@ const TakeCourse = ({ navigation }) => {
                             marginLeft: 10,
                             marginTop: 5
                         }} size={24} color="#fff" />
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
+
+                    <TouchableOpacity 
+                        onPress={() => {
+                            const nextVideoIndex = videoIndex - 1;
+                            setVideoIndex(nextVideoIndex);
+                            setStatus();
+                            video.current.playAsync();
+                        }}
+                        disabled={videoIndex === 0 ? true : false} 
+                        style={{
+                            width: '45%',
+                            height: 50,
+                            alignItems: 'center',
+                            backgroundColor: videoIndex === 0 ? '#7c7c7c': '#93a2db',
+                            borderRadius: 5,
+                            flexDirection: 'row-reverse',
+                            justifyContent: 'center',
+                            alignSelf: 'center',
+                            marginTop: 10,
+                    }}>
+                        <Text style={{
+                            color: '#fff',
+                            fontSize: 16
+                        }}>Isomo riheruka</Text>
+                        <FontAwesome5 name="angle-double-left" style={{
+                            marginRight: 10,
+                            marginTop: 2
+                        }} size={24} color="#fff" />
+                    </TouchableOpacity>    
+                        </View>
                     <View style={{
                         width: '90%',
                         alignSelf: 'center',
@@ -287,14 +333,15 @@ const TakeCourse = ({ navigation }) => {
                         marginBottom: 0}}>
                         <TouchableOpacity 
                         onPress={() => {
+                            setCourseId(courses[videoIndex]?.GUID)
                             navigation.navigate('TakeTest')
                         }}
-                        disabled={ status ==='finish' && videoIndex === courses.length - 1 && courses > 3 ? false : true}
+                        // disabled={ status ==='finish' && videoIndex === courses.length - 1 && courses > 3 ? false : true}
                         style={{
-                            width: '90%',
+                            width: '98%',
                             height: 50,
                             borderRadius: 5,
-                            backgroundColor: status ==='finish' && videoIndex === courses.length - 1 && courses > 3 ? '#93a2db': '#7c7c7c',
+                            backgroundColor: '#93a2db',
                             justifyContent: 'center',
                             alignItems: 'center',
                             alignSelf: 'center',

@@ -5410,7 +5410,7 @@ react-native-size-matters@^0.3.1:
   resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
   integrity sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw==
 
-react-native-skeleton-content@^1.0.22:
+react-native-skeleton-content@^1.0.23:
   version "1.0.23"
   resolved "https://registry.yarnpkg.com/react-native-skeleton-content/-/react-native-skeleton-content-1.0.23.tgz#92b7f9d24317bf8bb5360fe8436328536d9b1218"
   integrity sha512-5Ui9lEM+64aDJZhcGn/Loadktm1TVYnZwbAszp6qGz13A2KKiYcD/x4LNaj2zWKrAuNYB3xE5/e3yDBEIrr0bg==
