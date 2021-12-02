@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { View, Text, TouchableOpacity, StatusBar, SafeAreaView, Dimensions, ScrollView, Alert, Image, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, SafeAreaView, Dimensions, ScrollView, Alert, Image, TextInput, Platform } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { FontAwesome5, Feather } from '@expo/vector-icons';
 import axios from 'axios';
@@ -92,6 +92,22 @@ const TakeCourse = ({ navigation }) => {
                 height: height,
                 backgroundColor: '#fff'
             }}>
+                {
+                    Platform.OS === 'ios' ? <TouchableOpacity onPress={() => navigation.goBack()} style={{
+                        width: '10%',
+                        height: height - 630,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 5,
+                        borderWidth: 1,
+                        borderColor: '#93a2db',
+                        marginTop: 10,
+                        marginLeft: 10,
+                        marginBottom: 10,
+                    }}>
+                        <Feather name='chevrons-left' size={24} color='#93a2db' />
+                    </TouchableOpacity> : null
+                }
                 <ScrollView>
                 <StatusBar barStyle='dark-content' backgroundColor='#fff' />
                 <View style={{
