@@ -27,12 +27,13 @@ const Login = ({ navigation }) => {
             phone: phone,
             password: password
         }
-        axios.post('https://befaapi.herokuapp.com/api/signin', user)
+        axios.post('https://befaapii.herokuapp.com/api/signin', user)
         .then((response) => {
             setLoading(false);
             setLoggedIn(true);
             AsyncStorage.setItem('userId', `${response.data.userId}`);
             AsyncStorage.setItem('loggedIn', 'yes');
+            AsyncStorage.setItem('names', response.data.user.names.split(' ')[0])
         })
         .catch((err) => {
             setLoading(false)
@@ -72,8 +73,8 @@ const Login = ({ navigation }) => {
                             height: 50,
                             alignSelf: 'center',
                             paddingLeft: 60,
-                            borderRadius: 3,
-                            fontSize: 16
+                            borderRadius: 10,
+                            fontSize: 16,
                         }}
                         keyboardType='phone-pad'
                         maxLength={10}
@@ -83,7 +84,7 @@ const Login = ({ navigation }) => {
                         marginLeft: 20,
                         height: 50,
                         width: 50,
-                        borderRadius: 3,
+                        borderRadius: 10,
                         borderColor: '#93a2db',
                         borderRightWidth: 1,
                         justifyContent: 'center',
@@ -105,7 +106,7 @@ const Login = ({ navigation }) => {
                             height: 50,
                             alignSelf: 'center',
                             paddingLeft: 60,
-                            borderRadius: 3,
+                            borderRadius: 10,
                             fontSize: 16
                         }}
                         secureTextEntry={true}
@@ -115,7 +116,7 @@ const Login = ({ navigation }) => {
                         marginLeft: 20,
                         height: 50,
                         width: 50,
-                        borderRadius: 3,
+                        borderRadius: 10,
                         borderColor: '#93a2db',
                         borderRightWidth: 1,
                         justifyContent: 'center',
@@ -130,11 +131,12 @@ const Login = ({ navigation }) => {
                         width: '90%',
                         backgroundColor: '#93a2db',
                         height: 50,
-                        borderRadius: 3,
+                        borderRadius: 10,
                         justifyContent: 'center',
                         alignItems: 'center',
                         marginTop: 40,
                         alignSelf: 'center',
+                        elevation: 20,
                     }}>
                         <Text style={{
                             color: '#fff',
@@ -146,7 +148,7 @@ const Login = ({ navigation }) => {
                         flexDirection: 'row',
                         marginTop: 30,
                         alignSelf: 'center',
-                        width: '90%'
+                        width: '90%',
                     }}>
                         <Text style={{
                             fontSize: 16,

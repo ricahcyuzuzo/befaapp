@@ -12,6 +12,7 @@ const TakeExam = ({ navigation }) => {
     
     useEffect(() => {
         setQuizz(quizes.find(quiz => quiz.course === courseId ));
+        console.log(quizes.find(quiz => quiz.course === courseId ))
     }, []);
 
     const quiz = quizes.find(quiz => quiz.course === courseId );
@@ -26,7 +27,7 @@ const TakeExam = ({ navigation }) => {
             }}>
                 <View style={{
                     width: '100%',
-                    height: height - 550,
+                    minHeight: height - 550,
                     backgroundColor: '#93a2db'
                 }}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{
@@ -56,7 +57,8 @@ const TakeExam = ({ navigation }) => {
                             textAlign: 'justify',
                             lineHeight: 20,
                             width: '90%',
-                            marginLeft: 20
+                            marginLeft: 20,
+                            paddingBottom: 10,
                         }}>Itabire iki kizamini cyo gusuzuma ubumenyi bwawe ku mategeko y'umuhanda bigufasha kwitegura ikizamini cy' uruhushya rw' agateganyo rwo gutwara ibinyabiziga (Provisoire).</Text>
 
                 </View>
@@ -66,7 +68,7 @@ const TakeExam = ({ navigation }) => {
                     <TouchableOpacity 
         
                     onPress={() => {
-                        setQuizId(quiz.id);
+                        setQuizId(quiz?.id);
                         navigation.navigate('Test');
                     }} style={{
                         backgroundColor: '#fff',
@@ -77,7 +79,8 @@ const TakeExam = ({ navigation }) => {
                         height: 90,
                         marginTop: 20,
                         justifyContent: 'center',
-                        elevation: 20
+                        elevation: 20,
+                        borderRadius: 20
                     }}>
                         <View style={{
                         flexDirection: 'row'
@@ -87,13 +90,13 @@ const TakeExam = ({ navigation }) => {
                             fontSize: 18,
                             color: '#93a2db',
                             marginLeft: 20,
-                        }}>{quiz.title}</Text>
+                        }}>{quiz?.title}</Text>
                         </View>
                         <Text style={{
                             color: '#7c7c7c',
                             marginLeft: 20,
                             fontSize: 14,
-                        }}>Ibibazo {quiz.totalQuestions}</Text>
+                        }}>Ibibazo {quiz?.totalQuestions}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

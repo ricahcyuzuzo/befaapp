@@ -30,7 +30,7 @@ const Register = ({ navigation }) => {
             names: names,
         }
         setLoading(true)
-        axios.post('https://befaapi.herokuapp.com/api/signup', user)
+        axios.post('https://befaapii.herokuapp.com/api/signup', user)
             .then(() => {
                 setLoading(false)
                 navigation.navigate('Login')
@@ -72,7 +72,7 @@ const Register = ({ navigation }) => {
                                 height: 50,
                                 alignSelf: 'center',
                                 paddingLeft: 60,
-                                borderRadius: 3,
+                                borderRadius: 10,
                                 fontSize: 16
                             }}
                         />
@@ -81,7 +81,7 @@ const Register = ({ navigation }) => {
                             marginLeft: 20,
                             height: 50,
                             width: 50,
-                            borderRadius: 3,
+                            borderRadius: 10,
                             borderColor: '#93a2db',
                             borderRightWidth: 1,
                             justifyContent: 'center',
@@ -103,7 +103,7 @@ const Register = ({ navigation }) => {
                                 height: 50,
                                 alignSelf: 'center',
                                 paddingLeft: 60,
-                                borderRadius: 3,
+                                borderRadius: 10,
                                 fontSize: 16
                             }}
                             keyboardType='phone-pad'
@@ -114,13 +114,14 @@ const Register = ({ navigation }) => {
                             marginLeft: 20,
                             height: 50,
                             width: 50,
-                            borderRadius: 3,
+                            borderRadius: 10,
                             borderColor: '#93a2db',
                             borderRightWidth: 1,
                             justifyContent: 'center',
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            
                         }}>
-                            <Feather name='phone' size={24} color='#4282b7' />
+                            <Feather name='phone' size={24} color='#93a2db' />
                         </View>
                     </View>
     
@@ -136,7 +137,7 @@ const Register = ({ navigation }) => {
                                 height: 50,
                                 alignSelf: 'center',
                                 paddingLeft: 60,
-                                borderRadius: 3,
+                                borderRadius: 10,
                                 fontSize: 16
                             }}
                             secureTextEntry={true}
@@ -146,7 +147,7 @@ const Register = ({ navigation }) => {
                             marginLeft: 20,
                             height: 50,
                             width: 50,
-                            borderRadius: 3,
+                            borderRadius: 10,
                             borderColor: '#93a2db',
                             borderRightWidth: 1,
                             justifyContent: 'center',
@@ -168,7 +169,7 @@ const Register = ({ navigation }) => {
                                 height: 50,
                                 alignSelf: 'center',
                                 paddingLeft: 60,
-                                borderRadius: 3,
+                                borderRadius: 10,
                                 fontSize: 16
                             }}
                             secureTextEntry={true}
@@ -178,7 +179,7 @@ const Register = ({ navigation }) => {
                             marginLeft: 20,
                             height: 50,
                             width: 50,
-                            borderRadius: 3,
+                            borderRadius: 10,
                             borderColor: '#93a2db',
                             borderRightWidth: 1,
                             justifyContent: 'center',
@@ -194,11 +195,12 @@ const Register = ({ navigation }) => {
                             width: '90%',
                             backgroundColor: '#93a2db',
                             height: 50,
-                            borderRadius: 3,
+                            borderRadius: 10,
                             justifyContent: 'center',
                             alignItems: 'center',
                             marginTop: 40,
                             alignSelf: 'center',
+                            elevation: 20
                         }}>
                             <Text style={{
                                 color: '#fff',

@@ -28,7 +28,7 @@ const Answers = ({ navigation }) => {
             correctAnswer: rightAnswer,
             wrongAnswer: wrongAnswer,
         }
-        axios.post('https://befaapi.herokuapp.com/api/marks', post)
+        axios.post('https://befaapii.herokuapp.com/api/marks', post)
             .then(() => {
                 Alert.alert('Befa', `Wagize amanota ${score}/${answers.length * quizz.correctAnswerMarks}.`)
             }).catch(() => {
@@ -47,19 +47,6 @@ const Answers = ({ navigation }) => {
             <View style={{
                 flexDirection: 'row'
             }}>
-                <TouchableOpacity onPress = {val => navigation.goBack()} style={{
-                    justifyContent: 'center',
-                    borderRadius: 10,
-                    borderColor: '#93a2db',
-                    borderWidth: 1,
-                    height: 40,
-                    width: 40,
-                    alignItems: 'center',
-                    marginLeft: 20,
-                    marginTop: 10,
-                }}>
-                    <Feather name='chevron-left' color='#93a2db' size={24} />
-                </TouchableOpacity>
                 <Text style={{
                     fontSize: 20,
                     fontWeight: 'bold',
@@ -146,8 +133,10 @@ const Answers = ({ navigation }) => {
                         height: 50,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        borderRadius: 3,
+                        borderRadius: 10,
                         alignSelf: 'center',
+                        marginTop: 20,
+                        elevation: 20
                         // marginTop: height - 400
                     }}>
                         <Text style={{

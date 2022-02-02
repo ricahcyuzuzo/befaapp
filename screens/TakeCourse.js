@@ -5,6 +5,7 @@ import { FontAwesome5, Feather } from '@expo/vector-icons';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from '../AppContext/AppContext';
+import {Vimeo} from 'react-native-vimeo-iframe';
 
 const { width, height} = Dimensions.get('screen');
 
@@ -14,19 +15,27 @@ const TakeCourse = ({ navigation }) => {
     const [videoIndex, setVideoIndex] = useState(0);
     const [phone, setPhone] = useState();
     const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     const [loading1, setLoading1] = useState(false);
+    const [loading2, setLoading2] = useState(false);
     const { courses, setQuizes, setCourses, setCourseId } = useContext(AppContext);
 
+    const videoLink = courses[videoIndex]?.video.toString().split('/');
+    
     useEffect(() => {
-    }, []);
-
-
+        setInterval(() => {
+            checkPayment();
+            if(courses > 3){
+                setVideoIndex(3);
+            }
+        }, 5000)
+    }, [])
 
     const handlePay = async () => {
+        setLoading2(true);
         setLoading(true)
         const userId = await AsyncStorage.getItem('userId');
-        axios.post(`https://befaapi.herokuapp.com/api/pay?userId=${userId}`, { phone: phone })
+        axios.post(`https://befaapii.herokuapp.com/api/pay?userId=${userId}`, { phone: phone })
         .then((response) => {
             const msg = 'Mwasabye kwishyura, rangiza kwishyura ukanda *182*7*1#' 
             setMessage({
@@ -36,7 +45,7 @@ const TakeCourse = ({ navigation }) => {
             setLoading(false);
 
         }).catch(err => {
-            const msg = 'Nta mafaranga ahagije mufite kuri konti yanyu, mushyireho amafaranga kuri konti'  
+            const msg = 'Nta mafaranga ahagije mufite kuri konti yanyu, mushyireho amafaranga kuri konti, kanda *182*7*1#'  
             setMessage({
                 status: 401,
                 message: msg
@@ -48,7 +57,7 @@ const TakeCourse = ({ navigation }) => {
     const checkPayment = async () => {
         setLoading1(true)
         const userId = await AsyncStorage.getItem('userId');
-        axios.get(`https://befaapi.herokuapp.com/api/check?userId=${userId}`)
+        axios.get(`https://befaapii.herokuapp.com/api/check?userId=${userId}`)
         .then((response) => {
             const msg = response.data.message
               
@@ -57,14 +66,13 @@ const TakeCourse = ({ navigation }) => {
                 message: msg
             });
 
-            axios.get(`https://befaapi.herokuapp.com/api/quizes?userId=${userId}`)
+            axios.get(`https://befaapii.herokuapp.com/api/quizes?userId=${userId}`)
                 .then(response => {
                     setQuizes(response.data.data);
                 }).catch((err) => {
-                    console.log('Ishura')
-                })
+                });
 
-            axios.get(`https://befaapi.herokuapp.com/api/courses?userId=${userId}`)
+            axios.get(`https://befaapii.herokuapp.com/api/courses?userId=${userId}`)
                 .then(response => {
                    setCourses(response.data.data);
                 }) 
@@ -92,14 +100,16 @@ const TakeCourse = ({ navigation }) => {
                 height: height,
                 backgroundColor: '#fff'
             }}>
-                <ScrollView>
+                <ScrollView
+                    keyboardShouldPersistTaps='always'
+                >
                 <StatusBar barStyle='dark-content' backgroundColor='#fff' />
                 <View style={{
                     width: '100%',
                     marginTop: 0,
                 }}>
                     {
-                        status === 'finish' && videoIndex === 1 && courses.length < 4? 
+                        status === 'finish' && videoIndex === 1 && courses.length < 3? 
                         <View>
                             <Text style={{
                                 textAlign: 'justify',
@@ -159,43 +169,43 @@ const TakeCourse = ({ navigation }) => {
                             }}>{message?.message}</Text>
 
                         <TouchableOpacity 
-                        onPress={handlePay}
-                        style={{
-                            width: '90%',
-                            height: 50,
-                            borderRadius: 5,
-                            backgroundColor: '#93a2db',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            alignSelf: 'center',
-                            marginTop: 20,
-                            marginBottom: 5
+                            onPress={handlePay}
+                            style={{
+                                width: '90%',
+                                height: 50,
+                                borderRadius: 5,
+                                backgroundColor: '#93a2db',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                alignSelf: 'center',
+                                marginTop: 20,
+                                marginBottom: 5
                         }}>
                             <Text style={{
                                 color: '#fff',
                                 fontSize: 16
                             }}>{loading ? 'Loading...' : 'Ishyura'}</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity 
-                        onPress={checkPayment}
-                        style={{
-                            width: '90%',
-                            height: 50,
-                            borderRadius: 5,
-                            backgroundColor: '#35a061',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            alignSelf: 'center',
-                            marginTop: 20,
-                            marginBottom: 5
-                        }}>
-                            <Text style={{
-                                color: '#fff',
-                                fontSize: 16
-                            }}>{loading1 ? 'Loading...' : 'Nishyuye'}</Text>
-                        </TouchableOpacity>
                         </View> :<> 
-                        <Video
+                        <Vimeo
+                            style={{
+                                width: '98%',
+                                height: 200,
+                                position: 'relative',
+                                marginLeft: 0.4 
+                            }}
+                            videoId={videoLink[3]}
+                            onReady={() => console.log('Video is ready')}
+                            onPlay={() => setStatus('isPlaying')}
+                            onPlayProgress={(data) => console.log('Video progress data:', data)}
+                            onFinish={() => setStatus('finish')}
+                            loop={false}
+                            autoPlay={true}
+                            controls={true}
+                            speed={false}
+                            time={'0m0s'}
+                        />
+                        {/* <Video
                             style={{
                                 width: width,
                                 height: 200,
@@ -219,7 +229,7 @@ const TakeCourse = ({ navigation }) => {
                                 }
                             }}
                         
-                        />
+                        /> */}
                         
                         <View style={{
                             width: '98%',
@@ -245,7 +255,7 @@ const TakeCourse = ({ navigation }) => {
                         <Text style={{
                             color: '#fff',
                             fontSize: 16
-                        }}>Ishyura</Text>
+                        }}>Isomo rikurikira</Text>
                         <FontAwesome5 name="angle-double-right" style={{
                             marginLeft: 10,
                             marginTop: 5
@@ -257,7 +267,7 @@ const TakeCourse = ({ navigation }) => {
                             const nextVideoIndex = videoIndex + 1;
                             setVideoIndex(nextVideoIndex);
                             setStatus();
-                            video.current.playAsync();
+                            // video.current.playAsync();
                         }}
                         disabled={courses.length === videoIndex + 1 ? true : false} 
                         style={{
@@ -280,13 +290,12 @@ const TakeCourse = ({ navigation }) => {
                             marginTop: 5
                         }} size={24} color="#fff" />
                     </TouchableOpacity>}
-
-                    <TouchableOpacity 
+                    { videoIndex === 0 ? null : <TouchableOpacity 
                         onPress={() => {
                             const nextVideoIndex = videoIndex - 1;
                             setVideoIndex(nextVideoIndex);
-                            setStatus();
-                            video.current.playAsync();
+                            setStatus('finish');
+                            // video.current.playAsync();
                         }}
                         disabled={videoIndex === 0 ? true : false} 
                         style={{
@@ -308,7 +317,8 @@ const TakeCourse = ({ navigation }) => {
                             marginRight: 10,
                             marginTop: 2
                         }} size={24} color="#fff" />
-                    </TouchableOpacity>    
+                    </TouchableOpacity>    }
+                    
                         </View>
                     <View style={{
                         width: '90%',
@@ -338,15 +348,17 @@ const TakeCourse = ({ navigation }) => {
                         }}
                         // disabled={ status ==='finish' && videoIndex === courses.length - 1 && courses > 3 ? false : true}
                         style={{
-                            width: '98%',
+                            width: '95%',
                             height: 50,
-                            borderRadius: 5,
+                            borderRadius: 10,
                             backgroundColor: '#93a2db',
                             justifyContent: 'center',
                             alignItems: 'center',
                             alignSelf: 'center',
                             marginTop: 20,
-                            marginBottom: 5
+                            marginBottom: 5,
+                            elevation: 20,
+
                         }}>
                             <Text style={{
                                 color: '#fff',

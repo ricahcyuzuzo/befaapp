@@ -1,16 +1,19 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
-import { View, Text, StatusBar, SafeAreaView, Dimensions, TouchableOpacity, Image, Alert, StyleSheet, Modal } from 'react-native'
+import { View, Text, StatusBar, SafeAreaView, Dimensions, TouchableOpacity, ScrollView, Image, Alert, StyleSheet, Modal } from 'react-native'
 import AppContext from '../AppContext/AppContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Entypo } from '@expo/vector-icons';
 import SkeletonContent from 'react-native-skeleton-content';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 
 const { width, height} = Dimensions.get('screen');
 const Home = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
+    const [marks, setMarks] = useState([]);
     const {
         setQuizes,
         setOptions,
@@ -26,22 +29,39 @@ const Home = ({ navigation }) => {
         getAllAnswers();
         getAllQuizes();
         getAllCourses();
+        getName();
+        getMarks();
     }, []); 
+
+    const changeLandscape = async () => {
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+    }
 
     const getAllCourses = async () => {
         const userId = await AsyncStorage.getItem('userId');
-        axios.get(`https://befaapi.herokuapp.com/api/courses?userId=${userId}`)
+        axios.get(`https://befaapii.herokuapp.com/api/courses?userId=${userId}`)
         .then(response => {
            setCourses(response.data.data);
            setIsLoading(false);
+        //    console.log(response.data.data);
         }) 
         .catch(() => {
             Alert.alert('Befa', 'Havutse ikibazo, suzuma murandasi yawe.')
         });
     }
 
+    const getMarks = async () => {
+        const userId = await AsyncStorage.getItem('userId');
+        axios.get(`https://befaapii.herokuapp.com/api/marks?userId=${userId}`)
+        .then(response => {
+           setMarks(response.data.data);
+        }).catch(() => {
+            return
+        })
+    }
+
     const getAllOptions = () => {
-        axios.get('https://befaapi.herokuapp.com/api/options')
+        axios.get('https://befaapii.herokuapp.com/api/options')
         .then((response) => {
             setOptions(response.data.data);
         }).catch((error) => {
@@ -50,10 +70,10 @@ const Home = ({ navigation }) => {
     }
 
     const getAllAnswers = () => {
-        axios.get('https://befaapi.herokuapp.com/api/answers')
+        axios.get('https://befaapii.herokuapp.com/api/answers')
             .then((response) => {
                 setOptAnswers(response.data.data);
-                console.log(optAnswers);
+                // console.log(optAnswers);
             })
             .catch((error) => {
                 Alert.alert('Befa','Habonetse ikibazo, suzuma murandasi yawe');
@@ -62,13 +82,20 @@ const Home = ({ navigation }) => {
 
     const getAllQuizes = async () => {
         const userId = await AsyncStorage.getItem('userId');
-        axios.get(`https://befaapi.herokuapp.com/api/quizes?userId=${userId}`)
+        console.log(userId);
+        axios.get(`https://befaapii.herokuapp.com/api/quizes?userId=${userId}`)
             .then(response => {
                 setQuizes(response.data.data);
+                // console.log(response.data.data);
             }).catch((err) => {
                 console.log('Ishura')
             })
     };
+
+    const getName = async () => {
+        const name = await AsyncStorage.getItem('names');
+        setName(name);
+    } 
 
     return (
         <SafeAreaView>
@@ -89,12 +116,12 @@ const Home = ({ navigation }) => {
                 height: height,
                 backgroundColor: '#fff'
             }}>
+                <ScrollView>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     padding: 10,
                     paddingRight: 20, 
-
                 }}>
                     <View></View>
                     <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
@@ -109,26 +136,27 @@ const Home = ({ navigation }) => {
                     width: '90%',
                     alignSelf: 'center',
                     marginTop: 20,
+                    elevation: 20
                 }}>
                     <Text style={{
                         fontSize: 16,
                         color: '#7c7c7c'
-                    }}>Wiriwe Richard!</Text>
+                    }}>Wiriwe {name}</Text>
                     <Text style={{
                         fontSize: 25,
                         fontWeight: 'bold',
                         color: '#93a2db',
-
                     }}>Urakaza neza</Text>
                 </View>
 
                 <View style={{
                     width: '90%',
-                    borderRadius: 5,
-                    height: height - 570,
+                    borderRadius: 20,
+                    height: 150,
                     backgroundColor: '#f2eef4',
                     alignSelf: 'center',
                     marginTop: 30,
+                    elevation: 20
                 }}>
                     <Text style={{
                         fontSize: 20,
@@ -173,8 +201,9 @@ const Home = ({ navigation }) => {
                     width: '90%',
                     height: 100,
                     alignSelf: 'center',
-                    borderRadius: 5,
+                    borderRadius: 20,
                     marginTop: 30,
+                    elevation: 20
                 }}>
                     <Text style={{
                         fontSize: 20,
@@ -199,16 +228,17 @@ const Home = ({ navigation }) => {
                         height: 50,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        borderRadius: 3,
+                        borderRadius: 10,
                         alignSelf: 'center',
                         marginTop: 50,
+                        elevation: 20,
                     }}>
                         <Text style={{
                             fontSize: 16,
                             color: '#fff'
                         }}>Tangira Kwiga</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity 
+                    { marks?.length > 0 ? <TouchableOpacity 
                     onPress={() => navigation.navigate('Marks')}
                     style={{
                         backgroundColor: '#38a865',
@@ -216,16 +246,18 @@ const Home = ({ navigation }) => {
                         height: 50,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        borderRadius: 3,
+                        borderRadius: 10,
                         alignSelf: 'center',
                         marginTop: 10,
+                        elevation: 20
                     }}>
                         <Text style={{
                             fontSize: 16,
                             color: '#fff'
                         }}> Reba amanota</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> : null}
                 </View>
+                </ScrollView>
             </View>
             }
             <Modal

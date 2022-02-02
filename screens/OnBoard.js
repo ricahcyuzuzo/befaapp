@@ -20,7 +20,8 @@ const OnBoard = ({ navigation }) => {
                     width: '90%',
                     alignSelf: 'center',
                     backgroundColor: '#fff',
-                    borderRadius: 5,
+                    borderRadius: 20,
+                    elevation: 20,
                     marginTop: height - 290
                 }}>
                     <Text style={{
@@ -48,11 +49,12 @@ const OnBoard = ({ navigation }) => {
                         width: '45%',
                         backgroundColor: '#93a2db',
                         height: 50,
-                        borderRadius: 3,
+                        borderRadius: 10,
                         justifyContent: 'center',
                         alignItems: 'center',
                         marginTop: 40,
                         alignSelf: 'center',
+                        elevation: 20
                     }}>
                         <Text style={{
                             color: '#fff',
@@ -65,10 +67,11 @@ const OnBoard = ({ navigation }) => {
                         width: '45%',
                         backgroundColor: '#93a2db',
                         height: 50,
-                        borderRadius: 3,
+                        borderRadius: 10,
                         justifyContent: 'center',
                         alignItems: 'center',
                         marginTop: 40,
+                        elevation: 20,
                         alignSelf: 'center',
                     }}>
                         <Text style={{

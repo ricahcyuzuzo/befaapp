@@ -17,7 +17,7 @@ const Test = ({ navigation }) => {
     }, []);
 
     const getAllQuestions = () => {
-        axios.get(`https://befaapi.herokuapp.com/api/questions?quizId=${quizId}`)
+        axios.get(`https://befaapii.herokuapp.com/api/questions?quizId=${quizId}`)
             .then((response) => {
                 setQuestions(response.data.data);
                 console.log(response.data.data)
@@ -99,7 +99,9 @@ const Test = ({ navigation }) => {
                                 width: '100%',
                                 height: 90,
                                 marginTop: 20,
-                                justifyContent: 'center'
+                                justifyContent: 'center',
+                                borderRadius: 17,
+                                elevation: 20,
                             }}>
                                 <View style={{
                                 flexDirection: 'row'
@@ -134,7 +136,7 @@ const Test = ({ navigation }) => {
                    }
                     
                     {
-                        questions?.length === answers?.length ? <TouchableOpacity 
+                        questions?.length === answers?.length && answers.length !== 0 ? <TouchableOpacity 
                         onPress={() => {
                             navigation.navigate('Answers')
                         }}
@@ -174,12 +176,14 @@ const Test = ({ navigation }) => {
                         height: 50,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        borderRadius: 3,
+                        borderRadius: 10,
+                        elevation: 5,
                         alignSelf: 'center',
                         marginTop: 50,
                         borderColor: '#93a2db',
                         borderWidth: 2,
-                        marginBottom: 40,
+                        marginBottom: 50,
+
                     }}>
                         <Text style={{
                             fontSize: 16,

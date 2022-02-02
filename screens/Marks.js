@@ -15,7 +15,7 @@ const Marks = ({ navigation }) => {
 
     const getMarks = async () => {
         const userId = await AsyncStorage.getItem('userId');
-        axios.get(`https://befaapi.herokuapp.com/api/marks?userId=${userId}`)
+        axios.get(`https://befaapii.herokuapp.com/api/marks?userId=${userId}`)
         .then(response => {
            setMarks(response.data.data);
         }) 
@@ -84,7 +84,9 @@ const Marks = ({ navigation }) => {
                                 alignSelf: 'center',
                                 height: 120,
                                 marginTop: 20,
-                                elevation: 20
+                                elevation: 20,
+                                borderRadius: 20,
+                                paddingLeft: 10,
                             }}>
                                 <Text style={{
                                     color: '#93a2db',
