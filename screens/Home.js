@@ -100,17 +100,27 @@ const Home = ({ navigation }) => {
     return (
         <SafeAreaView>
             <StatusBar barStyle='dark-content' backgroundColor='#fff' />
-            { isLoading ? <SkeletonContent
-                containerStyle={{ flex: 1, width: '90%', alignItems: 'center', alignSelf: 'center', backgroundColor: '#fff' }}
-                isLoading={isLoading}
-                layout={[
-                    { key: '1', width: '20%', height: 40, borderRadius: 20, marginTop: 10, alignSelf: 'flex-end' },
-                    { key: '2', width: '100%', height: 30, borderRadius: 20, marginTop: 100 },
-                    { key: '3', width: '100%', height: 100, borderRadius: 20, marginTop: 30},
-                    { key: '4', width: '100%', height: 200, borderRadius: 20, marginTop: 30},
-                    { key: '5', width: '100%', height: 100, borderRadius: 20, marginTop: 30},
-
-                ]} /> :
+            { isLoading ? 
+            <View style={{
+                width: '90%',
+                alignSelf: 'center'
+            }}>
+                <View style={{
+                    width: '20%', height: 40, borderRadius: 20, marginTop: 10, alignSelf: 'flex-end', backgroundColor: '#c4c4c4'
+                }}></View>
+                <View style={{
+                    width: '100%', height: 30, borderRadius: 20, marginTop: 50, backgroundColor: '#c4c4c4'
+                }}></View>
+                <View style={{
+                    width: '100%', height: 100, borderRadius: 20, marginTop: 30, backgroundColor: '#c4c4c4'
+                }}></View>
+                <View style={{
+                    width: '100%', height: 200, borderRadius: 20, marginTop: 30, backgroundColor: '#c4c4c4',
+                }}></View>
+                <View style={{
+                    width: '100%', height: 100, borderRadius: 20, marginTop: 20, backgroundColor: '#c4c4c4'
+                }}></View>
+            </View> :
             <View style={{
                 width: '100%',
                 height: height,

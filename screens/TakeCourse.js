@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { View, Text, TouchableOpacity, StatusBar, SafeAreaView, Dimensions, ScrollView, Alert, Image, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, SafeAreaView, Dimensions, ScrollView, Alert, Image, TextInput, Platform } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { FontAwesome5, Feather } from '@expo/vector-icons';
 import axios from 'axios';
