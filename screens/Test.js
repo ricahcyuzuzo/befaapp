@@ -17,7 +17,7 @@ const Test = ({ navigation }) => {
     }, []);
 
     const getAllQuestions = () => {
-        axios.get(`https://befaapii.herokuapp.com/api/questions?quizId=${quizId}`)
+        axios.get(`https://befaapi.herokuapp.com/api/questions?quizId=${quizId}`)
             .then((response) => {
                 setQuestions(response.data.data);
                 console.log(response.data.data)
@@ -34,7 +34,8 @@ const Test = ({ navigation }) => {
             <View style={{
                 width: '100%',
                 height: height ,
-                backgroundColor: '#fff'
+                backgroundColor: '#fff',
+                marginTop: 20,
             }}>
             <ScrollView>
                 <View style={{
@@ -76,7 +77,6 @@ const Test = ({ navigation }) => {
                         fontSize: 25,
                         fontWeight: 'bold',
                         marginTop: 20, 
-                        textAlign: 'justify',
                         color: '#7c7c7c'
                     }}>{questions[questionIndex]?.question}</Text>
                 </View>

@@ -3,12 +3,12 @@
     "name": "amategeko",
     "slug": "amategeko",
     "version": "3.0.0",
-    "orientation": "landscape",
-    "icon": "./assets/image20.png",
+    "orientation": "portrait",
+    "icon": "./assets/befa.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash1.png",
       "resizeMode": "contain",
-      "backgroundColor": "#93a2db"
+      "backgroundColor": "#ffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -26,7 +26,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.ricah12.amategeko",
-      "versionCode": 5
+      "versionCode": 6
     },
     "web": {
       "favicon": "./assets/favicon.png"

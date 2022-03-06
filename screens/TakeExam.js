@@ -24,6 +24,7 @@ const TakeExam = ({ navigation }) => {
                 width: '100%',
                 height: height,
                 backgroundColor: '#fff',
+                marginTop: 20,
             }}>
                 <View style={{
                     width: '100%',

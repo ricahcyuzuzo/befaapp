@@ -30,7 +30,7 @@ const Register = ({ navigation }) => {
             names: names,
         }
         setLoading(true)
-        axios.post('https://befaapii.herokuapp.com/api/signup', user)
+        axios.post('https://befaapi.herokuapp.com/api/signup', user)
             .then(() => {
                 setLoading(false)
                 navigation.navigate('Login')

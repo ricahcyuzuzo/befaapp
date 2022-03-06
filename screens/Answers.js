@@ -28,7 +28,7 @@ const Answers = ({ navigation }) => {
             correctAnswer: rightAnswer,
             wrongAnswer: wrongAnswer,
         }
-        axios.post('https://befaapii.herokuapp.com/api/marks', post)
+        axios.post('https://befaapi.herokuapp.com/api/marks', post)
             .then(() => {
                 Alert.alert('Befa', `Wagize amanota ${score}/${answers.length * quizz.correctAnswerMarks}.`)
             }).catch(() => {

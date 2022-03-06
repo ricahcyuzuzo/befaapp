@@ -31,28 +31,29 @@ const Home = ({ navigation }) => {
         getAllCourses();
         getName();
         getMarks();
+        changeLandscape();
     }, []); 
 
     const changeLandscape = async () => {
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
     }
 
     const getAllCourses = async () => {
         const userId = await AsyncStorage.getItem('userId');
-        axios.get(`https://befaapii.herokuapp.com/api/courses?userId=${userId}`)
+        axios.get(`https://befaapi.herokuapp.com/api/courses?userId=${userId}`)
         .then(response => {
            setCourses(response.data.data);
            setIsLoading(false);
-        //    console.log(response.data.data);
+           console.log(response.data.data);
         }) 
         .catch(() => {
-            Alert.alert('Befa', 'Havutse ikibazo, suzuma murandasi yawe.')
+            // Alert.alert('Befa', 'Havutse ikibazo, suzuma murandasi yawe.')
         });
     }
 
     const getMarks = async () => {
         const userId = await AsyncStorage.getItem('userId');
-        axios.get(`https://befaapii.herokuapp.com/api/marks?userId=${userId}`)
+        axios.get(`https://befaapi.herokuapp.com/api/marks?userId=${userId}`)
         .then(response => {
            setMarks(response.data.data);
         }).catch(() => {
@@ -61,16 +62,17 @@ const Home = ({ navigation }) => {
     }
 
     const getAllOptions = () => {
-        axios.get('https://befaapii.herokuapp.com/api/options')
+        axios.get('https://befaapi.herokuapp.com/api/options')
         .then((response) => {
             setOptions(response.data.data);
         }).catch((error) => {
-            Alert.alert('Befa', 'Habonetse ikibazo, suzuma murandasi yawe');
+            console.log(error.response.data)
+            // Alert.alert('Befa', 'Habonetse ikibazo, suzuma murandasi yawes');
         })
     }
 
     const getAllAnswers = () => {
-        axios.get('https://befaapii.herokuapp.com/api/answers')
+        axios.get('https://befaapi.herokuapp.com/api/answers')
             .then((response) => {
                 setOptAnswers(response.data.data);
                 // console.log(optAnswers);
@@ -83,7 +85,7 @@ const Home = ({ navigation }) => {
     const getAllQuizes = async () => {
         const userId = await AsyncStorage.getItem('userId');
         console.log(userId);
-        axios.get(`https://befaapii.herokuapp.com/api/quizes?userId=${userId}`)
+        axios.get(`https://befaapi.herokuapp.com/api/quizes?userId=${userId}`)
             .then(response => {
                 setQuizes(response.data.data);
                 // console.log(response.data.data);
@@ -123,7 +125,8 @@ const Home = ({ navigation }) => {
             </View> :
             <View style={{
                 width: '100%',
-                height: height,
+                height: '100%',
+                marginTop: 20,
                 backgroundColor: '#fff'
             }}>
                 <ScrollView>
@@ -132,6 +135,7 @@ const Home = ({ navigation }) => {
                     justifyContent: 'space-between',
                     padding: 10,
                     paddingRight: 20, 
+                    
                 }}>
                     <View></View>
                     <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
@@ -184,7 +188,6 @@ const Home = ({ navigation }) => {
                         marginLeft: 10,
                         marginTop: 40,
                         width: '70%',
-                        textAlign: 'justify'
                     }}>Amasomo ajyanye n'ibibazo bibazwa mu kizamini cy'amategeko y' umuhanda</Text>
 
                     <View>
@@ -227,9 +230,11 @@ const Home = ({ navigation }) => {
                         fontSize: 18,
                         color: '#7c7c7c',
                         marginLeft: 10,
-                    }}>Ibibazo ibibazo bijyanye n'ibibazo by' ikizamini cy'amategeko y' umuhanda</Text>
+                    }}>Ibibazo bijyanye n'ibibazo by' ikizamini cy'amategeko y' umuhanda</Text>
                 </View>
-                <View>
+                <View style={{
+                    marginBottom: 40,
+                }}>
                     <TouchableOpacity 
                     onPress={() => navigation.navigate('TakeCourse')}
                     style={{

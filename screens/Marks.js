@@ -15,7 +15,7 @@ const Marks = ({ navigation }) => {
 
     const getMarks = async () => {
         const userId = await AsyncStorage.getItem('userId');
-        axios.get(`https://befaapii.herokuapp.com/api/marks?userId=${userId}`)
+        axios.get(`https://befaapi.herokuapp.com/api/marks?userId=${userId}`)
         .then(response => {
            setMarks(response.data.data);
         }) 

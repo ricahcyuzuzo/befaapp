@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
             phone: phone,
             password: password
         }
-        axios.post('https://befaapii.herokuapp.com/api/signin', user)
+        axios.post('https://befaapi.herokuapp.com/api/signin', user)
         .then((response) => {
             setLoading(false);
             setLoggedIn(true);
